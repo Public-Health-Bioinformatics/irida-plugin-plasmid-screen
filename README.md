@@ -2,7 +2,6 @@
 
 # IRIDA Plasmid Screen Pipeline Plugin
 
-![workflow.svg][]
 
 # Table of Contents
 
