@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iridaWorkflow>
+  <id>6ab85646-2aae-4c52-ae68-d6acbbfe6f1d</id>
+  <name>plasmid-screen</name>
+  <version>0.1.0</version>
+  <analysisType>PLASMID_SCREEN</analysisType>
+  <inputs>
+    <sequenceReadsPaired>sequence_reads_paired</sequenceReadsPaired>
+    <requiresSingleSample>true</requiresSingleSample>
+  </inputs>
+  <parameters>
+    <parameter name="" defaultValue="">
+      <toolParameter toolId="" parameterName=""/>
+    </parameter>
+  </parameters>
+  <outputs>
+    <output name="" fileName=""/>
+  </outputs>
+  <toolRepositories>
+    <repository>
+      <name>unicycler</name>
+      <owner>iuc</owner>
+      <url>https://toolshed.g2.bx.psu.edu/</url>
+      <revision>0a3a602cd1e3</revision>
+    </repository>
+    <repository>
+      <name>quast</name>
+      <owner>iuc</owner>
+      <url>https://toolshed.g2.bx.psu.edu</url>
+      <revision>59db8ea8c845</revision>
+    </repository>
+    <repository>
+      <name>prokka</name>
+      <owner>dfornika</owner>
+      <url>https://testtoolshed.g2.bx.psu.edu/</url>
+      <revision>9378a784ce30</revision>
+    </repository>
+    <repository>
+      <name>abricate</name>
+      <owner>iuc</owner>
+      <url>https://toolshed.g2.bx.psu.edu/</url>
+      <revision>1bb2ba6d3d96</revision>
+    </repository>
+    <repository>
+      <name>mob_suite</name>
+      <owner>dfornika</owner>
+      <url>https://testtoolshed.g2.bx.psu.edu/</url>
+      <revision>7124bff199fa</revision>
+    </repository>
+    <repository>
+      <name>mash</name>
+      <owner>iuc</owner>
+      <url>https://toolshed.g2.bx.psu.edu/</url>
+      <revision>402b67d1af7d</revision>
+    </repository>
+  </toolRepositories>
+</iridaWorkflow>
