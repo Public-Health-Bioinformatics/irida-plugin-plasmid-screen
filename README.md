@@ -2,6 +2,7 @@
 
 # IRIDA Plasmid Screen Pipeline Plugin
 
+![galaxy-workflow-diagram.png][]
 
 # Table of Contents
 
@@ -104,5 +105,5 @@ This should produce a `target/*.jar` file, which can be copied into `/etc/irida/
 [results.png]: doc/images/results.png
 [pipeline.png]: doc/images/pipeline.png
 [metadata.png]: doc/images/metadata.png
-[workflow.svg]: doc/images/workflow.svg
+[galaxy-workflow-diagram.png]: doc/images/galaxy-workflow-diagram.png
 [releases]: https://github.com/public-health-bioinformatics/irida-plugin-plasmid-screen/releases
