@@ -30,28 +30,58 @@
       <revision>59db8ea8c845</revision>
     </repository>
     <repository>
-      <name>prokka</name>
-      <owner>dfornika</owner>
-      <url>https://testtoolshed.g2.bx.psu.edu/</url>
-      <revision>9378a784ce30</revision>
-    </repository>
-    <repository>
       <name>abricate</name>
       <owner>iuc</owner>
       <url>https://toolshed.g2.bx.psu.edu/</url>
-      <revision>1bb2ba6d3d96</revision>
+      <revision>4efdca267d51</revision>
     </repository>
     <repository>
-      <name>mob_suite</name>
+      <name>mob_recon</name>
       <owner>dfornika</owner>
       <url>https://testtoolshed.g2.bx.psu.edu/</url>
-      <revision>7124bff199fa</revision>
+      <revision>84cf5ed52f58</revision>
     </repository>
     <repository>
-      <name>mash</name>
-      <owner>iuc</owner>
+      <name>mob_typer</name>
+      <owner>dfornika</owner>
+      <url>https://testtoolshed.g2.bx.psu.edu/</url>
+      <revision>a2ae7a82227d</revision>
+    </repository>
+    <repository>
+      <name>match_plasmid_to_reference</name>
+      <owner>public-health-bioinformatics</owner>
       <url>https://toolshed.g2.bx.psu.edu/</url>
-      <revision>402b67d1af7d</revision>
+      <revision>c917ef6807d7</revision>
+    </repository>
+    <repository>
+      <name>pick_plasmids_containing_genes</name>
+      <owner>public-health-bioinformatics</owner>
+      <url>https://toolshed.g2.bx.psu.edu/</url>
+      <revision>62019f5116f8</revision>
+    </repository>
+    <repository>
+      <name>cgview</name>
+      <owner>dfornika</owner>
+      <url>https://testtoolshed.g2.bx.psu.edu/</url>
+      <revision>0f16e3512425</revision>
+    </repository>
+    <repository>
+      <name>concatenate_multiple_datasets</name>
+      <owner>mvdbeek</owner>
+      <url>https://toolshed.g2.bx.psu.edu/</url>
+      <revision>201c568972c3</revision>
+    </repository>
+    <repository>
+      <name>collapse_collections</name>
+      <owner>nml</owner>
+      <url>https://toolshed.g2.bx.psu.edu/</url>
+      <revision>33151a38533a</revision>
+    </repository>
+    <repository>
+      <name>ncbi_acc_download</name>
+      <owner>dfornika</owner>
+      <url>https://testtoolshed.g2.bx.psu.edu/</url>
+      <revision>4872034b5ee6</revision>
     </repository>
   </toolRepositories>
 </iridaWorkflow>
