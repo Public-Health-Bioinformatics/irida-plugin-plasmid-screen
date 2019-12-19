@@ -6,12 +6,12 @@
 
 	<groupId>org.publichealthbioinformatics</groupId>
 	<artifactId>irida-plugin-plasmid-screen</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.0-SNAPSHOT</version>
 
 	<properties>
 		<plugin.id>plasmid-screen</plugin.id>
 		<plugin.class>org.publichealthbioinformatics.irida.plugin.plasmidscreen.PlasmidScreenPlugin</plugin.class>
-		<plugin.version>0.1.0</plugin.version>
+		<plugin.version>0.1.0-SNAPSHOT</plugin.version>
 		<plugin.provider>Dan Fornika</plugin.provider>
 		<plugin.dependencies></plugin.dependencies>
 		<plugin.requires.runtime>1.0.0</plugin.requires.runtime>

@@ -14,20 +14,26 @@
     </parameter>
   </parameters>
   <outputs>
-    <output name="" fileName=""/>
+    <output name="chromosome" fileName="chromosome.fasta"/>
+    <output name="resistance_plasmids" fileName="resistance_plasmids.zip"/>
+    <output name="chromosome_abricate_report" fileName="chromosome_abricate_report.tsv"/>
+    <output name="plasmids_abricate_report" fileName="plasmids_abricate_report.tsv"/>
+    <output name="plasmids_mob_typer_report" fileName="plasmids_mob_typer_report.tsv"/>
+    <output name="all_plasmids" fileName="all_plasmids.zip"/>
+    <output name="resistance_plasmids" fileName="resistance_plasmids.zip"/>
   </outputs>
   <toolRepositories>
     <repository>
       <name>unicycler</name>
       <owner>iuc</owner>
       <url>https://toolshed.g2.bx.psu.edu/</url>
-      <revision>0a3a602cd1e3</revision>
+      <revision>88c240872a65</revision>
     </repository>
     <repository>
       <name>quast</name>
       <owner>iuc</owner>
       <url>https://toolshed.g2.bx.psu.edu</url>
-      <revision>59db8ea8c845</revision>
+      <revision>81df4950d65b</revision>
     </repository>
     <repository>
       <name>abricate</name>
@@ -36,22 +42,10 @@
       <revision>4efdca267d51</revision>
     </repository>
     <repository>
-      <name>mob_recon</name>
-      <owner>dfornika</owner>
-      <url>https://testtoolshed.g2.bx.psu.edu/</url>
-      <revision>84cf5ed52f58</revision>
-    </repository>
-    <repository>
-      <name>mob_typer</name>
-      <owner>dfornika</owner>
-      <url>https://testtoolshed.g2.bx.psu.edu/</url>
-      <revision>a2ae7a82227d</revision>
-    </repository>
-    <repository>
-      <name>match_plasmid_to_reference</name>
-      <owner>public-health-bioinformatics</owner>
+      <name>mob_suite</name>
+      <owner>nml</owner>
       <url>https://toolshed.g2.bx.psu.edu/</url>
-      <revision>c917ef6807d7</revision>
+      <revision>9424de64bfa8</revision>
     </repository>
     <repository>
       <name>pick_plasmids_containing_genes</name>
@@ -60,28 +54,16 @@
       <revision>62019f5116f8</revision>
     </repository>
     <repository>
-      <name>cgview</name>
-      <owner>dfornika</owner>
-      <url>https://testtoolshed.g2.bx.psu.edu/</url>
-      <revision>0f16e3512425</revision>
-    </repository>
-    <repository>
-      <name>concatenate_multiple_datasets</name>
-      <owner>mvdbeek</owner>
-      <url>https://toolshed.g2.bx.psu.edu/</url>
-      <revision>201c568972c3</revision>
-    </repository>
-    <repository>
       <name>collapse_collections</name>
       <owner>nml</owner>
       <url>https://toolshed.g2.bx.psu.edu/</url>
       <revision>33151a38533a</revision>
     </repository>
     <repository>
-      <name>ncbi_acc_download</name>
-      <owner>dfornika</owner>
-      <url>https://testtoolshed.g2.bx.psu.edu/</url>
-      <revision>4872034b5ee6</revision>
+      <name>bundle_collections</name>
+      <owner>nml</owner>
+      <url>https://toolshed.g2.bx.psu.edu/</url>
+      <revision>cd6da887a5f4</revision>
     </repository>
   </toolRepositories>
 </iridaWorkflow>

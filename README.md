@@ -6,7 +6,7 @@
 
 # Table of Contents
 
-   * [IRIDA Plasmid Screen Pipeline Plugin](#irida-mlst-pipeline-plugin)
+   * [IRIDA Plasmid Screen Pipeline Plugin](#irida-plasmid-screen-pipeline-plugin)
    * [Installation](#buildingpackaging)
       * [Installing to IRIDA](#installing-to-irida)
       * [Installing Galaxy Dependencies](#installing-galaxy-dependencies)
@@ -16,7 +16,7 @@
       * [Metadata Table](#metadata-table)
    * [Building](#building)
       * [Installing IRIDA Libraries](#installing-irida-libraries)
-      * [Building MLST Plugin](#building-mlst-plugin)
+      * [Building Plasmid-Screen Plugin](#building-plasmid-screen-plugin)
 
 # Installation
 
@@ -30,12 +30,16 @@ Please download the provided `irida-plugin-plasmid-screen-[version].jar` from th
 
 In order to use this pipeline, you will also have to install several Galaxy tools within your Galaxy instance. These can be found at:
 
-| Name               | Version     | Galaxy Tool                                                               |
-|--------------------|-------------|---------------------------------------------------------------------------|
-| mash               | `2.1.1`     | <https://toolshed.g2.bx.psu.edu/view/iuc/mash/402b67d1af7d >              |
-| bwa                | `0.7.17`    | <https://toolshed.g2.bx.psu.edu/view/devteam/bwa/01ac0a5fedc3>            |
-| samtools_fixmate   | `1.9`       | <https://toolshed.g2.bx.psu.edu/view/iuc/samtools_fixmate/bc0cc7bfbfe9>   |
-| freebayes          | `1.1.0.46`  | <https://toolshed.g2.bx.psu.edu/view/devteam/freebayes/156b60c1530f>      |
+| Name                               | Version         | Owner                          | Metadata Revision | Galaxy Toolshed Link                                                                                                                                                    |
+|------------------------------------|-----------------|--------------------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| unicycler                          | `0.4.8`         | `iuc`                          | 7 (2019-10-08)    | [unicycler-7:88c240872a65](https://toolshed.g2.bx.psu.edu/view/iuc/unicycler/88c240872a65)                                                                              |
+| quast                              | `5.0.2`         | `iuc`                          | 5 (2018-12-04)    | [quast-5:81df4950d65b](https://toolshed.g2.bx.psu.edu/view/iuc/quast/81df4950d65b)                                                                                      |
+| mob_suite                          | `2.0.5`         | `nml`                          | 6 (2019-12-11)    | [mob_suite-6:9424de64bfa8](https://toolshed.g2.bx.psu.edu/view/nml/mob_suite/9424de64bfa8)                                                                              |
+| abricate                           | `0.9.8`         | `iuc`                          | 7 (2019-10-29)    | [abricate-7:4efdca267d51](https://toolshed.g2.bx.psu.edu/view/iuc/abricate/4efdca267d51)                                                                                |
+| pick_plasmids_containing_genes     | `0.1.0`         | `public-health-bioinformatics` | 0 (2019-11-12)    | [pick_plasmids_containing_genes-0:62019f5116f8](https://toolshed.g2.bx.psu.edu/view/public-health-bioinformatics/pick_plasmids_containing_genes/62019f5116f8)           |
+| collapse_collections               | `4.1`           | `nml`                          | 5 (2019-08-27)    | [collapse_collections-5:33151a38533a](https://toolshed.g2.bx.psu.edu/view/nml/collapse_collections/33151a38533a)                                                        |
+| bundle_collections                 | `1.2.1`         | `nml`                          | 1 (2017-08-04)    | [bundle_collections-1:cd6da887a5f4](https://toolshed.g2.bx.psu.edu/view/nml/bundle_collections/cd6da887a5f4)                                                        |
+
 
 # Usage
 
