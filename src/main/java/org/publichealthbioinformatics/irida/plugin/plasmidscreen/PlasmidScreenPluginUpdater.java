@@ -4,10 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 
 import ca.corefacility.bioinformatics.irida.exceptions.IridaWorkflowNotFoundException;
@@ -24,6 +23,7 @@ import ca.corefacility.bioinformatics.irida.pipeline.results.updater.AnalysisSam
 import ca.corefacility.bioinformatics.irida.service.sample.MetadataTemplateService;
 import ca.corefacility.bioinformatics.irida.service.sample.SampleService;
 import ca.corefacility.bioinformatics.irida.service.workflow.IridaWorkflowsService;
+import org.apache.jute.compiler.JField;
 
 /**
  * This implements a class used to perform post-processing on the analysis
@@ -90,19 +90,11 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
             String workflowVersion = iridaWorkflow.getWorkflowDescription().getVersion();
             String workflowName = iridaWorkflow.getWorkflowDescription().getName();
 
-            // gets information from the "mlst.tsv" output file and constructs metadata
+            // gets information from the "plasmids_mob_typer_report.tsv" output file and constructs metadata
             // objects
-            Map<String, String> mlstValues = parseMlstFile(mlstFile);
-            for (String mlstField : mlstValues.keySet()) {
-                final String mlstValue = mlstValues.get(mlstField);
+            List<Map<String, String>> mobTyperReport = parseMobTyperReportFile(mlstFile);
 
-                PipelineProvidedMetadataEntry mlstEntry = new PipelineProvidedMetadataEntry(mlstValue, "text",
-                        analysisSubmission);
-
-                // key will be string like 'mlst/0.1.0/scheme'
-                String key = workflowName.toLowerCase() + "/" + mlstField;
-                metadataEntries.put(key, mlstEntry);
-            }
+            // TODO: complete logic for what to store in metadata table
 
             Map<MetadataTemplateField, MetadataEntry> metadataMap = metadataTemplateService
                     .getMetadataMap(metadataEntries);
@@ -123,47 +115,45 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
      * Parses out values from the MLST output file into a {@link Map} linking 'mlstField' to
      * 'mlstValue'.
      *
-     * @param mlstFile The {@link Path} to the file containing the hash values from
+     * @param mobTyperReportFilePath The {@link Path} to the file containing the hash values from
      *                 the pipeline. This file should contain contents like:
      *
      *                 <pre>
-     * NM003   neisseria  4821  abcZ(222)  adk(3)  aroE(58)  fumC(275)  gdh(30)  pdhC(5)  pgm(255)
+     * file_id	num_contigs	total_length	gc	rep_type(s)	rep_type_accession(s)	relaxase_type(s)	relaxase_type_accession(s)	mpf_type	mpf_type_accession(s)	orit_type(s)	orit_accession(s)	PredictedMobility	mash_nearest_neighbor	mash_neighbor_distance	mash_neighbor_cluster	NCBI-HR-rank	NCBI-HR-Name	LitRepHRPlasmClass	LitPredDBHRRank	LitPredDBHRRankSciName	LitRepHRRankInPubs	LitRepHRNameInPubs	LitMeanTransferRate	LitClosestRefAcc	LitClosestRefDonorStrain	LitClosestRefRecipientStrain	LitClosestRefTransferRate	LitClosestConjugTemp	LitPMIDs	LitPMIDsNumber
+     * plasmid_1068	2	19016	50.54690786705932	-	-	-	-	-	-	-	-	Non-mobilizable	CP021680	0.00705245	1068	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+     * plasmid_1550	5	106133	51.586217293396025	IncFIIA,IncFII,IncFIA	000136__AP014877_00014,000121__CP024805,000094__NZ_CP015070_00117	MOBF	NC_017627_00068	MPF_F	08-5333_00200,NC_008460_00107,NC_014615_00033,NC_010488_00021,NC_018966_00040,NC_017639_00100,NC_007675_00027,NC_013437_00116,NC_017639_00094,NC_019094_00090,NC_010409_00124,NC_022651_00077	-	-	Conjugative	CP011064	0.00476862	1550	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
      *                 </pre>
      *
      * @return A {@link Map} linking 'mlstField' to 'mlstValue'.
      * @throws IOException             If there was an error reading the file.
      * @throws PostProcessingException If there was an error parsing the file.
      */
-    private Map<String, String> parseMlstFile(Path mlstFile) throws IOException, PostProcessingException {
-        Map<String, String> mlstResults = new HashMap<>();
+    @VisibleForTesting
+    List<Map<String, String>> parseMobTyperReportFile(Path mobTyperReportFilePath) throws IOException, PostProcessingException {
+        List<Map<String, String>> mobTyperReport = new ArrayList<Map<String, String>>();
 
-        BufferedReader mlstReader = new BufferedReader(new FileReader(mlstFile.toFile()));
+        BufferedReader mobTyperReportReader = new BufferedReader(new FileReader(mobTyperReportFilePath.toFile()));
 
         try {
 
-            String[] mlstFields = {
-                    "sample_id",
-                    "scheme",
-                    "sequence_type",
-            };
 
-            String mlstValuesLine = mlstReader.readLine();
-            String[] mlstValues = mlstValuesLine.split("\t");
-
-            // Start index at 1, skip sample_id from mlstFile
-            for (int i = 1; i < mlstFields.length; i++) {
-                mlstResults.put(mlstFields[i], mlstValues[i]);
-            }
-
-            if (mlstReader.readLine() != null) {
-                throw new PostProcessingException("Too many lines in file " + mlstFile);
+            String mobTyperReportHeaderLine = mobTyperReportReader.readLine();
+            String[] mobTyperReportHeaders = mobTyperReportHeaderLine.split("\t");
+            String line;
+            while ((line = mobTyperReportReader.readLine()) != null) {
+                String[] record = line.split("\t");
+                Map mobTyperReportEntry = new HashMap<String, String>();
+                for(int i = 0; i < mobTyperReportHeaders.length; i++ ) {
+                    mobTyperReportEntry.put(mobTyperReportHeaders[i], record[i]);
+                }
+                mobTyperReport.add(mobTyperReportEntry);
             }
         } finally {
             // make sure to close, even in cases where an exception is thrown
-            mlstReader.close();
+            mobTyperReportReader.close();
         }
 
-        return mlstResults;
+        return mobTyperReport;
     }
 
     /**

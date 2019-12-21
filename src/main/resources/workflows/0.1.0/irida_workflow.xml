@@ -9,25 +9,149 @@
     <requiresSingleSample>true</requiresSingleSample>
   </inputs>
   <parameters>
-    <parameter name="" defaultValue="">
-      <toolParameter toolId="" parameterName=""/>
+    <parameter name="unicycler-1-lr_align.low_score" defaultValue="">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="lr_align.low_score"/>
+    </parameter>
+    <parameter name="unicycler-1-spades.largest_component" defaultValue="false">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="spades.largest_component"/>
+    </parameter>
+    <parameter name="unicycler-1-min_fasta_length" defaultValue="100">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="min_fasta_length"/>
+    </parameter>
+    <parameter name="unicycler-1-mode" defaultValue="normal">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="mode"/>
+    </parameter>
+    <parameter name="unicycler-1-spades.kmer_count" defaultValue="10">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="spades.kmer_count"/>
+    </parameter>
+    <parameter name="unicycler-1-min_anchor_seg_len" defaultValue="">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="min_anchor_seg_len"/>
+    </parameter>
+    <parameter name="unicycler-1-spades.max_kmer_frac" defaultValue="0.95">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="spades.max_kmer_frac"/>
+    </parameter>
+    <parameter name="unicycler-1-spades.min_kmer_frac" defaultValue="0.2">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="spades.min_kmer_frac"/>
+    </parameter>
+    <parameter name="unicycler-1-graph_clean.min_dead_end_size" defaultValue="1000">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="graph_clean.min_dead_end_size"/>
+    </parameter>
+    <parameter name="unicycler-1-graph_clean.min_component_size" defaultValue="1000">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="graph_clean.min_component_size"/>
+    </parameter>
+    <parameter name="unicycler-1-spades.depth_filter" defaultValue="0.25">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="spades.depth_filter"/>
+    </parameter>
+    <parameter name="unicycler-1-pilon.min_polish_size" defaultValue="1000">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="pilon.min_polish_size"/>
+    </parameter>
+    <parameter name="unicycler-1-spades.kmers" defaultValue="">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.8.0" parameterName="spades.kmers"/>
+    </parameter>
+
+    <parameter name="mob_suite-4-adv_param.min_rpp_ident" defaultValue="80">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/2.0.5+galaxy0" parameterName="adv_param.min_rpp_ident" label="Minimum sequence identity for repetitive elements" type="integer"/>
+    </parameter>
+    <parameter name="mob_suite-4-adv_param.min_mob_evalue" defaultValue="1e-05">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/2.0.5+galaxy0" parameterName="adv_param.min_mob_evalue" label="Minimum evalue threshold for relaxase tblastn" type="float"/>
+    </parameter>
+    <parameter name="mob_suite-4-adv_param.min_length_condition.min_length_param" defaultValue="False">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/2.0.5+galaxy0" parameterName="adv_param.min_length_condition.min_length_param" label="Minimum length of contigs to process" type="select"/>
+    </parameter>
+    <parameter name="mob_suite-4-adv_param.min_mob_ident" defaultValue="80">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/2.0.5+galaxy0" parameterName="adv_param.min_mob_ident" label="Minimum sequence identity for relaxases" type="integer"/>
+    </parameter>
+    <parameter name="mob_suite-4-adv_param.min_rep_evalue" defaultValue="1e-05">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/2.0.5+galaxy0" parameterName="adv_param.min_rep_evalue" label="Minimum evalue threshold for replicon blastn" type="float"/>
+    </parameter>
+    <parameter name="mob_suite-4-adv_param.min_rpp_evalue" defaultValue="1e-05">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/2.0.5+galaxy0" parameterName="adv_param.min_rpp_evalue" label="Minimum evalue threshold for repetitve elements blastn" type="float"/>
+    </parameter>
+    <parameter name="mob_suite-4-adv_param.min_con_ident" defaultValue="80">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/2.0.5+galaxy0" parameterName="adv_param.min_con_ident" label="Minimum sequence identity for contigs" type="integer"/>
+    </parameter>
+    <parameter name="mob_suite-4-adv_param.min_rep_ident" defaultValue="80">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/2.0.5+galaxy0" parameterName="adv_param.min_rep_ident" label="Minimum sequence identity for replicons" type="integer"/>
+    </parameter>
+    <parameter name="mob_suite-4-adv_param.min_con_evalue" defaultValue="1e-05">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_recon/2.0.5+galaxy0" parameterName="adv_param.min_con_evalue" label="Minimum evalue threshold for contig blastn" type="float"/>
+    </parameter>
+
+    <parameter name="mob_suite-5-adv_param.min_mob_evalue_value" defaultValue="1e-05">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="adv_param.min_mob_evalue_value"/>
+    </parameter>
+    <parameter name="mob_suite-5-adv_param.min_mpf_evalue" defaultValue="1e-05">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="adv_param.min_mpf_evalue"/>
+    </parameter>
+    <parameter name="mob_suite-5-adv_param.min_mob_ident" defaultValue="80">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="adv_param.min_mob_ident" label="Minimum sequence identity for relaxases" type="integer"/>
+    </parameter>
+    <parameter name="mob_suite-5-adv_param.min_ori_evalue_value" defaultValue="1e-05">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="adv_param.min_ori_evalue_value"/>
+    </parameter>
+    <parameter name="mob_suite-5-adv_param.min_mpf_ident" defaultValue="80">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="adv_param.min_mpf_ident"/>
+    </parameter>
+    <parameter name="mob_suite-5-host_range_detailed" defaultValue="false">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="host_range_detailed"/>
+    </parameter>
+    <parameter name="mob_suite-5-adv_param.min_con_evalue_value" defaultValue="1e-05">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="adv_param.min_con_evalue_value"/>
+    </parameter>
+    <parameter name="mob_suite-5-adv_param.min_ori_ident" defaultValue="90">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="adv_param.min_ori_ident"/>
+    </parameter>
+    <parameter name="mob_suite-5-adv_param.min_rep_ident" defaultValue="80">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="adv_param.min_rep_ident" label="Minimum sequence identity for replicons" type="integer"/>
+    </parameter>
+    <parameter name="mob_suite-5-adv_param.min_rep_evalue_value" defaultValue="1e-05">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/nml/mob_suite/mob_typer/2.0.5+galaxy0" parameterName="adv_param.min_rep_evalue_value"/>
+    </parameter>
+
+    <parameter name="abricate-6-adv.min_dna_id" defaultValue="75.0">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/0.9.8" parameterName="adv.min_dna_id"/>
+    </parameter>
+    <parameter name="abricate-6-adv.db" defaultValue="card">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/0.9.8" parameterName="adv.db"/>
+    </parameter>
+
+    <parameter name="abricate-7-adv.min_dna_id" defaultValue="75.0">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/0.9.8" parameterName="adv.min_dna_id"/>
+    </parameter>
+    <parameter name="abricate-7-adv.db" defaultValue="card">
+      <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/0.9.8" parameterName="adv.db"/>
     </parameter>
   </parameters>
+
   <outputs>
-    <output name="chromosome" fileName="chromosome.fasta"/>
-    <output name="resistance_plasmids" fileName="resistance_plasmids.zip"/>
-    <output name="chromosome_abricate_report" fileName="chromosome_abricate_report.tsv"/>
-    <output name="plasmids_abricate_report" fileName="plasmids_abricate_report.tsv"/>
+    <output name="abricate_report_screened" fileName="abricate_report_screened.tsv"/>
+    <output name="abricate_report_full" fileName="abricate_report_full.tsv"/>
     <output name="plasmids_mob_typer_report" fileName="plasmids_mob_typer_report.tsv"/>
+    <output name="mob_recon_contig_report" fileName="mob_recon_contig_report.tsv"/>
+    <output name="chromosome" fileName="chromosome.fasta"/>
+    <output name="quast" fileName="quast.tsv"/>
     <output name="all_plasmids" fileName="all_plasmids.zip"/>
     <output name="resistance_plasmids" fileName="resistance_plasmids.zip"/>
   </outputs>
+
   <toolRepositories>
     <repository>
-      <name>unicycler</name>
-      <owner>iuc</owner>
-      <url>https://toolshed.g2.bx.psu.edu/</url>
-      <revision>88c240872a65</revision>
+      <name>mob_suite</name>
+      <owner>nml</owner>
+      <url>https://toolshed.g2.bx.psu.edu</url>
+      <revision>9424de64bfa8</revision>
+    </repository>
+    <repository>
+      <name>text_processing</name>
+      <owner>bgruening</owner>
+      <url>https://toolshed.g2.bx.psu.edu</url>
+      <revision>74a8bef53a00</revision>
+    </repository>
+    <repository>
+      <name>pick_plasmids_containing_genes</name>
+      <owner>public-health-bioinformatics</owner>
+      <url>https://toolshed.g2.bx.psu.edu</url>
+      <revision>c9129ecc609d</revision>
     </repository>
     <repository>
       <name>quast</name>
@@ -36,34 +160,40 @@
       <revision>81df4950d65b</revision>
     </repository>
     <repository>
+      <name>combine_tabular_collection</name>
+      <owner>nml</owner>
+      <url>https://toolshed.g2.bx.psu.edu</url>
+      <revision>b815081988b5</revision>
+    </repository>
+    <repository>
+      <name>screen_abricate_report</name>
+      <owner>public-health-bioinformatics</owner>
+      <url>https://toolshed.g2.bx.psu.edu</url>
+      <revision>912a3a3dc082</revision>
+    </repository>
+    <repository>
       <name>abricate</name>
       <owner>iuc</owner>
-      <url>https://toolshed.g2.bx.psu.edu/</url>
+      <url>https://toolshed.g2.bx.psu.edu</url>
       <revision>4efdca267d51</revision>
-    </repository>
-    <repository>
-      <name>mob_suite</name>
-      <owner>nml</owner>
-      <url>https://toolshed.g2.bx.psu.edu/</url>
-      <revision>9424de64bfa8</revision>
-    </repository>
-    <repository>
-      <name>pick_plasmids_containing_genes</name>
-      <owner>public-health-bioinformatics</owner>
-      <url>https://toolshed.g2.bx.psu.edu/</url>
-      <revision>62019f5116f8</revision>
     </repository>
     <repository>
       <name>collapse_collections</name>
       <owner>nml</owner>
-      <url>https://toolshed.g2.bx.psu.edu/</url>
-      <revision>33151a38533a</revision>
+      <url>https://toolshed.g2.bx.psu.edu</url>
+      <revision>c0c988378838</revision>
     </repository>
     <repository>
       <name>bundle_collections</name>
       <owner>nml</owner>
-      <url>https://toolshed.g2.bx.psu.edu/</url>
+      <url>https://toolshed.g2.bx.psu.edu</url>
       <revision>cd6da887a5f4</revision>
+    </repository>
+    <repository>
+      <name>unicycler</name>
+      <owner>iuc</owner>
+      <url>https://toolshed.g2.bx.psu.edu</url>
+      <revision>88c240872a65</revision>
     </repository>
   </toolRepositories>
 </iridaWorkflow>
