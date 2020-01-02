@@ -66,10 +66,10 @@ public class PlasmidScreenPluginUpdaterTest {
         ImmutableMap<String, String> expectedResults = ImmutableMap.<String, String>builder()
                 // .put("tetyper/deletions", "none")
                 .build();
-        Path teTyperSummaryFilePath = Paths.get(ClassLoader.getSystemResource("tetyper_summary.tsv").toURI());
+        Path mobTyperReportFilePath = Paths.get(ClassLoader.getSystemResource("plasmids_mob_typer_report.tsv").toURI());
 
-        AnalysisOutputFile teTyperSummaryFile = new AnalysisOutputFile(teTyperSummaryFilePath, null, null, null);
-        Analysis analysis = new Analysis(null, ImmutableMap.of("tetyper_summary", teTyperSummaryFile), null, null);
+        AnalysisOutputFile mobTyperReportFile = new AnalysisOutputFile(mobTyperReportFilePath, null, null, null);
+        Analysis analysis = new Analysis(null, ImmutableMap.of("plasmids_mob_typer_report", mobTyperReportFile), null, null);
         AnalysisSubmission submission = AnalysisSubmission.builder(uuid)
                 .inputFiles(ImmutableSet.of(new SingleEndSequenceFile(null))).build();
 

@@ -79,8 +79,10 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
         final Sample sample = samples.iterator().next();
 
         // extracts paths to the analysis result files
-        AnalysisOutputFile mlstAnalysisFile = analysisSubmission.getAnalysis().getAnalysisOutputFile("mlst");
-        Path mlstFile = mlstAnalysisFile.getFile();
+        AnalysisOutputFile mobTyperReportFile = analysisSubmission.getAnalysis().getAnalysisOutputFile("plasmids_mob_typer_report");
+        AnalysisOutputFile screenedAbricateReportFile = analysisSubmission.getAnalysis().getAnalysisOutputFile("plasmids_mob_typer_report");
+        Path mobTyperReportFilePath = mobTyperReportFile.getFile();
+        Path screenedAbricateReportFilePath = screenedAbricateReportFile.getFile();
 
         try {
             Map<String, MetadataEntry> metadataEntries = new HashMap<>();
@@ -92,8 +94,8 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
 
             // gets information from the "plasmids_mob_typer_report.tsv" output file and constructs metadata
             // objects
-            List<Map<String, String>> mobTyperReport = parseMobTyperReportFile(mlstFile);
-
+            List<Map<String, String>> mobTyperReport = parseMobTyperReportFile(mobTyperReportFilePath);
+            List<Map<String, String>> screenedAbricateReport = parseAbricateReportFile(screenedAbricateReportFilePath);
             // TODO: complete logic for what to store in metadata table
 
             Map<MetadataTemplateField, MetadataEntry> metadataMap = metadataTemplateService
@@ -112,8 +114,7 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
     }
 
     /**
-     * Parses out values from the MLST output file into a {@link Map} linking 'mlstField' to
-     * 'mlstValue'.
+     * Parses out values from the MOB-Typer output file into a {@link List<Map>} linking fields to values for each line in the report
      *
      * @param mobTyperReportFilePath The {@link Path} to the file containing the hash values from
      *                 the pipeline. This file should contain contents like:
@@ -124,7 +125,7 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
      * plasmid_1550	5	106133	51.586217293396025	IncFIIA,IncFII,IncFIA	000136__AP014877_00014,000121__CP024805,000094__NZ_CP015070_00117	MOBF	NC_017627_00068	MPF_F	08-5333_00200,NC_008460_00107,NC_014615_00033,NC_010488_00021,NC_018966_00040,NC_017639_00100,NC_007675_00027,NC_013437_00116,NC_017639_00094,NC_019094_00090,NC_010409_00124,NC_022651_00077	-	-	Conjugative	CP011064	0.00476862	1550	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
      *                 </pre>
      *
-     * @return A {@link Map} linking 'mlstField' to 'mlstValue'.
+     * @return A {@link List<Map>} linking fields to values for each line in the MOB-Typer report.
      * @throws IOException             If there was an error reading the file.
      * @throws PostProcessingException If there was an error parsing the file.
      */
@@ -151,6 +152,49 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
         } finally {
             // make sure to close, even in cases where an exception is thrown
             mobTyperReportReader.close();
+        }
+
+        return mobTyperReport;
+    }
+
+    /**
+     * Parses out values from the Abricate output file into a {@link List<Map>} linking fields to values for each line of the report
+     *
+     * @param abricateReportFilePath The {@link Path} to the file containing the hash values from
+     *                 the pipeline. This file should contain contents like:
+     *
+     *                 <pre>
+     *  #FILE	SEQUENCE	START	END	STRAND	GENE	COVERAGE	COVERAGE_MAP	GAPS	%COVERAGE	%IDENTITY	DATABASE	ACCESSION	PRODUCT	RESISTANCE
+     *  plasmid_2719	53_length=9674_depth=5.42x	496	1308	+	NDM-5	1-813/813	===============	0/0	100.00	100.00	card	JN104597:115-928	New Delhi beta-lactamase NDM-5.	cephamycin/penam/cephalosporin/carbapenem
+     *                 </pre>
+     *
+     * @return A {@link List<Map>} linking fields to values for each line in the abricate report.
+     * @throws IOException             If there was an error reading the file.
+     * @throws PostProcessingException If there was an error parsing the file.
+     */
+    @VisibleForTesting
+    List<Map<String, String>> parseAbricateReportFile(Path abricateReportFilePath) throws IOException, PostProcessingException {
+        List<Map<String, String>> mobTyperReport = new ArrayList<Map<String, String>>();
+
+        BufferedReader abricateReportReader = new BufferedReader(new FileReader(abricateReportFilePath.toFile()));
+
+        try {
+
+
+            String abricateReportHeaderLine = abricateReportReader.readLine();
+            String[] abricateReportHeaders = abricateReportHeaderLine.split("\t");
+            String line;
+            while ((line = abricateReportReader.readLine()) != null) {
+                String[] record = line.split("\t");
+                Map abricateReportEntry = new HashMap<String, String>();
+                for(int i = 0; i < abricateReportHeaders.length; i++ ) {
+                    abricateReportEntry.put(abricateReportHeaders[i], record[i]);
+                }
+                mobTyperReport.add(abricateReportEntry);
+            }
+        } finally {
+            // make sure to close, even in cases where an exception is thrown
+            abricateReportReader.close();
         }
 
         return mobTyperReport;
