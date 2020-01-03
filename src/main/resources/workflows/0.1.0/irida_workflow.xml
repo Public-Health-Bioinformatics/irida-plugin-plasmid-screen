@@ -41,10 +41,10 @@
       <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/public-health-bioinformatics/pick_plasmids_containing_genes/pick_plasmids_containing_genes/0.2.0" parameterName="screening_file_source.screening_file"/>
     </parameter>
 
-    <parameter name="screen_abricate_report-19-adv.min_coverage" defaultValue="90.0">
+    <parameter name="screen_abricate_report-19-min_coverage" defaultValue="90.0">
       <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/public_health_bioinformatics/screen_abricate_report/screen_abricate_report/0.3.0" parameterName="min_coverage"/>
     </parameter>
-    <parameter name="screen_abricate_report-19-adv.min_identity" defaultValue="90.0">
+    <parameter name="screen_abricate_report-19-min_identity" defaultValue="90.0">
       <toolParameter toolId="toolshed.g2.bx.psu.edu/repos/public_health_bioinformatics/screen_abricate_report/screen_abricate_report/0.3.0" parameterName="min_identity"/>
     </parameter>
   </parameters>
