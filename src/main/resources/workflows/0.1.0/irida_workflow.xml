@@ -109,7 +109,7 @@
       <name>screen_abricate_report</name>
       <owner>public-health-bioinformatics</owner>
       <url>https://toolshed.g2.bx.psu.edu</url>
-      <revision>2262e531c50b</revision>
+      <revision>22247b1a59d5</revision>
     </repository>
     <repository>
       <name>collapse_collections</name>
