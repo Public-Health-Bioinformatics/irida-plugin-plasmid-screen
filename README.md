@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Public-Health-Bioinformatics/irida-plugin-plasmid-screen.svg?branch=master)](https://travis-ci.org/Public-Health-Bioinformatics/irida-plugin-plasmid-screen)
+[![codecov](https://codecov.io/gh/Public-Health-Bioinformatics/irida-plugin-plasmid-screen/branch/master/graph/badge.svg)](https://codecov.io/gh/Public-Health-Bioinformatics/irida-plugin-plasmid-screen)
 [![GitHub release](https://img.shields.io/github/release/public-health-bioinformatics/irida-plugin-plasmid-screen.svg)](https://github.com/public-health-bioinformatics/irida-plugin-plasmid-screen/releases/latest)
 
 # IRIDA Plasmid Screen Pipeline Plugin
