@@ -63,13 +63,43 @@ public class PlasmidScreenPluginUpdaterTest {
 
     @Test
     public void testUpdate() throws Throwable {
+
         ImmutableMap<String, String> expectedResults = ImmutableMap.<String, String>builder()
-                // .put("tetyper/deletions", "none")
+                .put("plasmid-screen/KPC/detected", "False")
+                .put("plasmid-screen/KPC/alleles", "")
+                .put("plasmid-screen/NDM/detected", "True")
+                .put("plasmid-screen/NDM/alleles", "NDM-1")
+                .put("plasmid-screen/NDM/replicons", "IncFIB,IncFII,IncFII")
+                .put("plasmid-screen/NDM/nearest_genbank_plasmid", "KY798505")
+                .put("plasmid-screen/NDM/mash_distance", "0.0167251")
+                .put("plasmid-screen/NDM/plasmid_cluster", "1577")
+                .put("plasmid-screen/OXA/detected", "True")
+                .put("plasmid-screen/OXA/alleles", "OXA-9")
+                .put("plasmid-screen/OXA/replicons", "IncFIB,IncFII,IncFII")
+                .put("plasmid-screen/OXA/nearest_genbank_plasmid", "KY798505")
+                .put("plasmid-screen/OXA/mash_distance", "0.0167251")
+                .put("plasmid-screen/OXA/plasmid_cluster", "1577")
+                .put("plasmid-screen/VIM/detected", "False")
+                .put("plasmid-screen/VIM/alleles", "")
+                .put("plasmid-screen/IMP/detected", "False")
+                .put("plasmid-screen/IMP/alleles", "")
                 .build();
-        Path mobTyperReportFilePath = Paths.get(ClassLoader.getSystemResource("plasmids_mob_typer_report.tsv").toURI());
+
+        Path mobTyperReportFilePath = Paths.get(ClassLoader.getSystemResource("SAMN13042171-plasmids_mob_typer_report.tsv").toURI());
+        Path abricateReportFilePath = Paths.get(ClassLoader.getSystemResource("SAMN13042171-abricate_report_screened.tsv").toURI());
+        Path geneDetectionStatusReportFilePath = Paths.get(ClassLoader.getSystemResource("SAMN13042171-gene_detection_status.tsv").toURI());
 
         AnalysisOutputFile mobTyperReportFile = new AnalysisOutputFile(mobTyperReportFilePath, null, null, null);
-        Analysis analysis = new Analysis(null, ImmutableMap.of("plasmids_mob_typer_report", mobTyperReportFile), null, null);
+        AnalysisOutputFile abricateReportFile = new AnalysisOutputFile(abricateReportFilePath, null, null, null);
+        AnalysisOutputFile geneDetectionStatusReportFile = new AnalysisOutputFile(geneDetectionStatusReportFilePath, null, null, null);
+
+        Map<String, AnalysisOutputFile> analysisOutputFiles = ImmutableMap.of(
+                "plasmids_mob_typer_report", mobTyperReportFile,
+                "abricate_report_screened", abricateReportFile,
+                "gene_detection_status", geneDetectionStatusReportFile
+        );
+
+        Analysis analysis = new Analysis(null, analysisOutputFiles, null, null);
         AnalysisSubmission submission = AnalysisSubmission.builder(uuid)
                 .inputFiles(ImmutableSet.of(new SingleEndSequenceFile(null))).build();
 
@@ -114,13 +144,37 @@ public class PlasmidScreenPluginUpdaterTest {
 
     @Test
     public void testParseMobTyperReportFile() throws Throwable {
-        Path mobTyperReportFilePath = Paths.get(ClassLoader.getSystemResource("plasmids_mob_typer_report.tsv").toURI());
+        Path mobTyperReportFilePath = Paths.get(ClassLoader.getSystemResource("SAMN13042171-plasmids_mob_typer_report.tsv").toURI());
         List<Map<String, String>> mobTyperReport = updater.parseMobTyperReportFile(mobTyperReportFilePath);
         for (Map<String, String> mobTyperReportEntry:mobTyperReport) {
             assertThat(mobTyperReportEntry, IsMapContaining.hasKey("file_id"));
-            assertThat(mobTyperReportEntry, IsMapContaining.hasKey("num_contigs"));
-            assertThat(mobTyperReportEntry, IsMapContaining.hasKey("total_length"));
-            // TODO: Add more assertions
+            assertThat(mobTyperReportEntry, IsMapContaining.hasKey("rep_types"));
+            assertThat(mobTyperReportEntry, IsMapContaining.hasKey("mash_nearest_neighbor"));
+            assertThat(mobTyperReportEntry, IsMapContaining.hasKey("mash_neighbor_distance"));
+            assertThat(mobTyperReportEntry, IsMapContaining.hasKey("mash_neighbor_cluster"));
+        }
+    }
+
+    @Test
+    public void testParseAbricateReportFile() throws Throwable {
+        Path abricateReportFilePath = Paths.get(ClassLoader.getSystemResource("SAMN13042171-abricate_report_screened.tsv").toURI());
+        List<Map<String, String>> abricateReport = updater.parseAbricateReportFile(abricateReportFilePath);
+        for (Map<String, String> abricateReportEntry:abricateReport) {
+            assertThat(abricateReportEntry, IsMapContaining.hasKey("file"));
+            assertThat(abricateReportEntry, IsMapContaining.hasKey("gene"));
+            assertThat(abricateReportEntry, IsMapContaining.hasKey("percent_coverage"));
+            assertThat(abricateReportEntry, IsMapContaining.hasKey("percent_identity"));
+        }
+    }
+
+    @Test
+    public void testParseGeneDetectionStatusReportFile() throws Throwable {
+        Path geneDetectionStatusReportFilePath = Paths.get(ClassLoader.getSystemResource("SAMN13042171-gene_detection_status.tsv").toURI());
+        List<Map<String, String>> geneDetectionStatusReport = updater.parseGeneDetectionStatusReportFile(geneDetectionStatusReportFilePath);
+        for (Map<String, String> geneDetectionStatusReportEntry:geneDetectionStatusReport) {
+            assertThat(geneDetectionStatusReportEntry, IsMapContaining.hasKey("gene_name"));
+            assertThat(geneDetectionStatusReportEntry, IsMapContaining.hasKey("detected"));
+            assertThat(geneDetectionStatusReportEntry, IsMapContaining.hasKey("alleles"));
         }
     }
 }

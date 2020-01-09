@@ -1,5 +1,5 @@
 {
-    "uuid": "4af5fb93-0614-43e5-9530-bc8fa35d15df",
+    "uuid": "ff5aba22-bd90-43d6-8434-26d6e84be3b4",
     "tags": [],
     "format-version": "0.1",
     "name": "plasmid-screen",
@@ -12,7 +12,7 @@
             "workflow_outputs": [
                 {
                     "output_name": "output",
-                    "uuid": "75a292cd-2795-4cf3-9dc9-7b9532f72777",
+                    "uuid": "91295817-d7c7-45c5-8720-1a11f5f15ef0",
                     "label": null
                 }
             ],
@@ -324,17 +324,17 @@
                         "newname": "chromosome.fasta"
                     }
                 },
+                "HideDatasetActioncontig_report": {
+                    "output_name": "contig_report",
+                    "action_type": "HideDatasetAction",
+                    "action_arguments": {}
+                },
                 "RenameDatasetActionchromosome": {
                     "output_name": "chromosome",
                     "action_type": "RenameDatasetAction",
                     "action_arguments": {
                         "newname": "chromosome.fasta"
                     }
-                },
-                "HideDatasetActioncontig_report": {
-                    "output_name": "contig_report",
-                    "action_type": "HideDatasetAction",
-                    "action_arguments": {}
                 },
                 "HideDatasetActionmobtyper_aggregate_report": {
                     "output_name": "mobtyper_aggregate_report",
@@ -692,7 +692,7 @@
             "inputs": [],
             "position": {
                 "top": 914.5,
-                "left": 1202.4500122070312
+                "left": 1202.4499969482422
             },
             "annotation": "",
             "content_id": "toolshed.g2.bx.psu.edu/repos/nml/combine_tabular_collection/combine/0.1",
@@ -1057,8 +1057,8 @@
             "type": "tool"
         },
         "19": {
-            "tool_id": "toolshed.g2.bx.psu.edu/repos/public-health-bioinformatics/screen_abricate_report/screen_abricate_report/0.3.0",
-            "tool_version": "0.3.0",
+            "tool_id": "toolshed.g2.bx.psu.edu/repos/public-health-bioinformatics/screen_abricate_report/screen_abricate_report/0.4.0+galaxy0",
+            "tool_version": "0.4.0+galaxy0",
             "outputs": [
                 {
                     "type": "tabular",
@@ -1075,13 +1075,18 @@
             ],
             "workflow_outputs": [
                 {
+                    "output_name": "gene_detection_status",
+                    "uuid": "2b6ea307-ab16-4325-bffb-806e17b427ce",
+                    "label": null
+                },
+                {
                     "output_name": "output_screening_file",
-                    "uuid": "4fef7db1-4f1f-4a2e-812c-ca51c40b5244",
+                    "uuid": "bd7149ec-0761-41b4-b839-5b276c9534a4",
                     "label": null
                 },
                 {
                     "output_name": "screened_report",
-                    "uuid": "6c52856e-38dc-4ca4-8490-4408642a7241",
+                    "uuid": "3780390f-1e02-4ffd-83e6-a23a9e2c4f6b",
                     "label": null
                 }
             ],
@@ -1099,18 +1104,20 @@
             "id": 19,
             "tool_shed_repository": {
                 "owner": "public-health-bioinformatics",
-                "changeset_revision": "2262e531c50b",
+                "changeset_revision": "22247b1a59d5",
                 "name": "screen_abricate_report",
                 "tool_shed": "toolshed.g2.bx.psu.edu"
             },
-            "uuid": "2c90886c-be4a-4cd2-95f3-933eb325a6c6",
+            "uuid": "05180a2e-3e18-4f5a-b719-10d434591572",
             "errors": null,
             "name": "Screen Abricate Report",
             "post_job_actions": {
-                "HideDatasetActiongene_detection_status": {
+                "RenameDatasetActiongene_detection_status": {
                     "output_name": "gene_detection_status",
-                    "action_type": "HideDatasetAction",
-                    "action_arguments": {}
+                    "action_type": "RenameDatasetAction",
+                    "action_arguments": {
+                        "newname": "gene_detection_status.tsv"
+                    }
                 },
                 "RenameDatasetActionscreened_report": {
                     "output_name": "screened_report",
@@ -1139,11 +1146,11 @@
                 }
             ],
             "position": {
-                "top": 944.7666625976562,
-                "left": 1731
+                "top": 967.5,
+                "left": 1781.5
             },
             "annotation": "",
-            "content_id": "toolshed.g2.bx.psu.edu/repos/public-health-bioinformatics/screen_abricate_report/screen_abricate_report/0.3.0",
+            "content_id": "toolshed.g2.bx.psu.edu/repos/public-health-bioinformatics/screen_abricate_report/screen_abricate_report/0.4.0+galaxy0",
             "type": "tool"
         }
     },

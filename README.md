@@ -7,7 +7,7 @@
 # Table of Contents
 
    * [IRIDA Plasmid Screen Pipeline Plugin](#irida-plasmid-screen-pipeline-plugin)
-   * [Installation](#buildingpackaging)
+   * [Installation](#installation)
       * [Installing to IRIDA](#installing-to-irida)
       * [Installing Galaxy Dependencies](#installing-galaxy-dependencies)
    * [Usage](#usage)

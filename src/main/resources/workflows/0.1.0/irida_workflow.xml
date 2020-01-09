@@ -51,6 +51,7 @@
 
   <outputs>
     <output name="abricate_report_screened" fileName="abricate_report_screened.tsv"/>
+    <output name="gene_detection_status" fileName="gene_detection_status.tsv"/>
     <output name="abricate_report_full" fileName="abricate_report_full.tsv"/>
     <output name="plasmids_mob_typer_report" fileName="plasmids_mob_typer_report.tsv"/>
     <output name="mob_recon_contig_report" fileName="mob_recon_contig_report.tsv"/>

@@ -1,0 +1,3 @@
+#FILE	SEQUENCE	START	END	STRAND	GENE	COVERAGE	COVERAGE_MAP	GAPS	%COVERAGE	%IDENTITY	DATABASE	ACCESSION	PRODUCT	RESISTANCE
+plasmid_1577	36_length=21390_depth=1.20x	11265	12089	+	OXA-9	1-825/825	===============	0/0	100.00	100.00	card	M55547:1-826	OXA-9 is a beta-lactamase found in Klebsiella pneumoniae.	cephalosporin/penam
+plasmid_1577	59_length=4558_depth=1.06x	2388	3200	-	NDM-1	1-813/813	===============	0/0	100.00	100.00	card	FN396876:2407-3220	NDM-1 is a metallo-beta-lactamase isolated from Klebsiella pneumoniae with nearly complete resistance to all beta-lactam antibiotics.	cephalosporin/penam/carbapenem/cephamycin

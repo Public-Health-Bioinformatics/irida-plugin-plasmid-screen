@@ -80,9 +80,11 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
 
         // extracts paths to the analysis result files
         AnalysisOutputFile mobTyperReportFile = analysisSubmission.getAnalysis().getAnalysisOutputFile("plasmids_mob_typer_report");
-        AnalysisOutputFile screenedAbricateReportFile = analysisSubmission.getAnalysis().getAnalysisOutputFile("plasmids_mob_typer_report");
+        AnalysisOutputFile screenedAbricateReportFile = analysisSubmission.getAnalysis().getAnalysisOutputFile("abricate_report_screened");
+        AnalysisOutputFile geneDetectionStatusReportFile = analysisSubmission.getAnalysis().getAnalysisOutputFile("gene_detection_status");
         Path mobTyperReportFilePath = mobTyperReportFile.getFile();
         Path screenedAbricateReportFilePath = screenedAbricateReportFile.getFile();
+        Path geneDetectionStatusReportFilePath = geneDetectionStatusReportFile.getFile();
 
         try {
             Map<String, MetadataEntry> metadataEntries = new HashMap<>();
@@ -92,11 +94,66 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
             String workflowVersion = iridaWorkflow.getWorkflowDescription().getVersion();
             String workflowName = iridaWorkflow.getWorkflowDescription().getName();
 
-            // gets information from the "plasmids_mob_typer_report.tsv" output file and constructs metadata
-            // objects
+            // gets information from several pipeline output files and constructs metadata objects
             List<Map<String, String>> mobTyperReport = parseMobTyperReportFile(mobTyperReportFilePath);
             List<Map<String, String>> screenedAbricateReport = parseAbricateReportFile(screenedAbricateReportFilePath);
+            List<Map<String, String>> geneDetectionStatusReport = parseGeneDetectionStatusReportFile(geneDetectionStatusReportFilePath);
             // TODO: complete logic for what to store in metadata table
+
+            for (Map<String, String> geneDetectionStatus:geneDetectionStatusReport){
+                String metadataEntryKey;
+                String geneName = geneDetectionStatus.get("gene_name");
+                String geneDetected = geneDetectionStatus.get("detected");
+                /* It's possible that we may see multiple alleles of the same gene.
+                 * so we have to support multiple values for the following.
+                 */
+                List<String> alleles = Arrays.asList(geneDetectionStatus.get("alleles").split(","));
+                List<String> replicons = new ArrayList<>();
+                List<String> nearestGenbankPlasmids = new ArrayList<>();
+                List<String> mashDistanceToNearestGenbankPlasmids = new ArrayList<>();
+                List<String> plasmidClusters = new ArrayList<>();
+                PipelineProvidedMetadataEntry geneDetectedEntry = new PipelineProvidedMetadataEntry(geneDetected, "xs:boolean", analysisSubmission);
+                PipelineProvidedMetadataEntry allelesEntry = new PipelineProvidedMetadataEntry(String.join("|", alleles), "xs:string", analysisSubmission);
+                if (geneDetectionStatus.get("detected").equals("True")) {
+                    for (String allele:alleles) {
+                        String plasmidId = "";
+                        for (Map<String, String> abricateRecord : screenedAbricateReport) {
+                            if (abricateRecord.get("gene").equals(allele)) {
+                                plasmidId = abricateRecord.get("file");
+                            }
+                        }
+                        for (Map<String, String> mobTyperReportRecord : mobTyperReport) {
+                            if (mobTyperReportRecord.get("file_id").equals(plasmidId)){
+                                replicons.add(mobTyperReportRecord.get("rep_types"));
+                                nearestGenbankPlasmids.add(mobTyperReportRecord.get("mash_nearest_neighbor"));
+                                mashDistanceToNearestGenbankPlasmids.add(mobTyperReportRecord.get("mash_neighbor_distance"));
+                                plasmidClusters.add(mobTyperReportRecord.get("mash_neighbor_cluster"));
+                            }
+                        }
+                    }
+                    PipelineProvidedMetadataEntry repliconsEntry = new PipelineProvidedMetadataEntry(String.join("|", replicons), "xs:string", analysisSubmission);
+                    metadataEntryKey = workflowName + "/" + geneName + "/" + "replicons";
+                    metadataEntries.put(metadataEntryKey, repliconsEntry);
+
+                    PipelineProvidedMetadataEntry nearestGenbankPlasmidsEntry = new PipelineProvidedMetadataEntry(String.join("|", nearestGenbankPlasmids), "xs:string", analysisSubmission);
+                    metadataEntryKey = workflowName + "/" + geneName + "/" + "nearest_genbank_plasmid";
+                    metadataEntries.put(metadataEntryKey, nearestGenbankPlasmidsEntry);
+
+                    PipelineProvidedMetadataEntry mashDistanceToNearestGenbankPlasmidsEntry = new PipelineProvidedMetadataEntry(String.join("|", mashDistanceToNearestGenbankPlasmids), "xs:string", analysisSubmission);
+                    metadataEntryKey = workflowName + "/" + geneName + "/" + "mash_distance";
+                    metadataEntries.put(metadataEntryKey, mashDistanceToNearestGenbankPlasmidsEntry);
+
+                    PipelineProvidedMetadataEntry plasmidClustersEntry = new PipelineProvidedMetadataEntry(String.join("|", plasmidClusters), "xs:string", analysisSubmission);
+                    metadataEntryKey = workflowName + "/" + geneName + "/" + "plasmid_cluster";
+                    metadataEntries.put(metadataEntryKey, plasmidClustersEntry);
+                }
+
+                // key will be string like 'plasmid-screen/KPC/detected'
+                metadataEntryKey = workflowName + "/" + geneName + "/" + "detected";
+                metadataEntries.put(metadataEntryKey, geneDetectedEntry);
+                metadataEntryKey = workflowName + "/" + geneName + "/" + "alleles";
+                metadataEntries.put(metadataEntryKey, allelesEntry);
+            }
 
             Map<MetadataTemplateField, MetadataEntry> metadataMap = metadataTemplateService
                     .getMetadataMap(metadataEntries);
@@ -116,8 +173,7 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
     /**
      * Parses out values from the MOB-Typer output file into a {@link List<Map>} linking fields to values for each line in the report
      *
-     * @param mobTyperReportFilePath The {@link Path} to the file containing the hash values from
-     *                 the pipeline. This file should contain contents like:
+     * @param mobTyperReportFilePath The {@link Path} to the file containing contents like:
      *
      *                 <pre>
      * file_id	num_contigs	total_length	gc	rep_type(s)	rep_type_accession(s)	relaxase_type(s)	relaxase_type_accession(s)	mpf_type	mpf_type_accession(s)	orit_type(s)	orit_accession(s)	PredictedMobility	mash_nearest_neighbor	mash_neighbor_distance	mash_neighbor_cluster	NCBI-HR-rank	NCBI-HR-Name	LitRepHRPlasmClass	LitPredDBHRRank	LitPredDBHRRankSciName	LitRepHRRankInPubs	LitRepHRNameInPubs	LitMeanTransferRate	LitClosestRefAcc	LitClosestRefDonorStrain	LitClosestRefRecipientStrain	LitClosestRefTransferRate	LitClosestConjugTemp	LitPMIDs	LitPMIDsNumber
@@ -140,6 +196,9 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
 
             String mobTyperReportHeaderLine = mobTyperReportReader.readLine();
             String[] mobTyperReportHeaders = mobTyperReportHeaderLine.split("\t");
+            for (int i = 0; i < mobTyperReportHeaders.length; i++ ){
+                mobTyperReportHeaders[i] = mobTyperReportHeaders[i].replaceAll("[()]", "");
+            }
             String line;
             while ((line = mobTyperReportReader.readLine()) != null) {
                 String[] record = line.split("\t");
@@ -160,8 +219,7 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
     /**
      * Parses out values from the Abricate output file into a {@link List<Map>} linking fields to values for each line of the report
      *
-     * @param abricateReportFilePath The {@link Path} to the file containing the hash values from
-     *                 the pipeline. This file should contain contents like:
+     * @param abricateReportFilePath The {@link Path} to the file containing contents like:
      *
      *                 <pre>
      *  #FILE	SEQUENCE	START	END	STRAND	GENE	COVERAGE	COVERAGE_MAP	GAPS	%COVERAGE	%IDENTITY	DATABASE	ACCESSION	PRODUCT	RESISTANCE
@@ -174,15 +232,16 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
      */
     @VisibleForTesting
     List<Map<String, String>> parseAbricateReportFile(Path abricateReportFilePath) throws IOException, PostProcessingException {
-        List<Map<String, String>> mobTyperReport = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> abricateReport = new ArrayList<Map<String, String>>();
 
         BufferedReader abricateReportReader = new BufferedReader(new FileReader(abricateReportFilePath.toFile()));
 
         try {
-
-
             String abricateReportHeaderLine = abricateReportReader.readLine();
             String[] abricateReportHeaders = abricateReportHeaderLine.split("\t");
+            for (int i = 0; i < abricateReportHeaders.length; i++ ){
+                abricateReportHeaders[i] = abricateReportHeaders[i].replaceAll("#", "").replaceAll("%", "percent_").toLowerCase();
+            }
             String line;
             while ((line = abricateReportReader.readLine()) != null) {
                 String[] record = line.split("\t");
@@ -190,14 +249,59 @@ public class PlasmidScreenPluginUpdater implements AnalysisSampleUpdater {
                 for(int i = 0; i < abricateReportHeaders.length; i++ ) {
                     abricateReportEntry.put(abricateReportHeaders[i], record[i]);
                 }
-                mobTyperReport.add(abricateReportEntry);
+                abricateReport.add(abricateReportEntry);
             }
         } finally {
             // make sure to close, even in cases where an exception is thrown
             abricateReportReader.close();
         }
 
-        return mobTyperReport;
+        return abricateReport;
+    }
+
+    /**
+     * Parses out values from the 'Gene Detection Status' file into a {@link List<Map>} linking fields to values for each line of the report
+     *
+     * @param geneDetactionStatusReportFilePath The {@link Path} to the file containing contents like:
+     *
+     *                 <pre>
+     * gene_name	detected	alleles
+     * KPC	False
+     * OXA	True	OXA-9
+     * NDM	True	NDM-1
+     * VIM	False
+     * IMP	False
+     *                 </pre>
+     *
+     * @return A {@link List<Map>} linking fields to values for each line in the abricate report.
+     * @throws IOException             If there was an error reading the file.
+     * @throws PostProcessingException If there was an error parsing the file.
+     */
+    @VisibleForTesting
+    List<Map<String, String>> parseGeneDetectionStatusReportFile(Path geneDetactionStatusReportFilePath) throws IOException, PostProcessingException {
+        List<Map<String, String>> geneDetectionStatusReport = new ArrayList<Map<String, String>>();
+
+        BufferedReader geneDetectionStatusReportReader = new BufferedReader(new FileReader(geneDetactionStatusReportFilePath.toFile()));
+
+        try {
+            String geneDetectionStatusReportHeaderLine = geneDetectionStatusReportReader.readLine();
+            String[] geneDetectionStatusReportHeaders = geneDetectionStatusReportHeaderLine.split("\t");
+
+            String line;
+            while ((line = geneDetectionStatusReportReader.readLine()) != null) {
+                String[] record = line.split("\t", -1);
+                Map geneDetectionStatusReportEntry = new HashMap<String, String>();
+                for(int i = 0; i < geneDetectionStatusReportHeaders.length; i++ ) {
+                    geneDetectionStatusReportEntry.put(geneDetectionStatusReportHeaders[i], record[i]);
+                }
+                geneDetectionStatusReport.add(geneDetectionStatusReportEntry);
+            }
+        } finally {
+            // make sure to close, even in cases where an exception is thrown
+            geneDetectionStatusReportReader.close();
+        }
+
+        return geneDetectionStatusReport;
     }
 
     /**
