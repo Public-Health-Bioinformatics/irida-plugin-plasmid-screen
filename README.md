@@ -84,7 +84,7 @@ To install the IRIDA libraries to a local Maven repository, please run the follo
 mvn clean install -DskipTests
 ```
 
-## Building MLST Plugin
+## Building the Plugin
 
 Once IRIDA is installed, you may build the pipeline plugin by running the following in this project's directory (the `irida-plugin-plasmid-screen` directory):
 
