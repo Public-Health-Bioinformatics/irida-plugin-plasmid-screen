@@ -12,6 +12,7 @@
    * [Installation](#installation)
       * [Installing to IRIDA](#installing-to-irida)
       * [Installing Galaxy Dependencies](#installing-galaxy-dependencies)
+      * [Setting up your abricate report screening file(s)](#setting-up-your-abricate-report-screening-files)
    * [Usage](#usage)
       * [Monitoring Pipeline Status](#monitoring-pipeline-status)
       * [Analysis Results](#analysis-results)
@@ -45,6 +46,24 @@ In order to use this pipeline, you will also have to install several Galaxy tool
 | bundle_collections                 | `1.2.1`         | `nml`                          | 1 (2017-08-04)    | [bundle_collections-1:cd6da887a5f4](https://toolshed.g2.bx.psu.edu/view/nml/bundle_collections/cd6da887a5f4)                                                            |
 | text_processing                    | (multiple)      | `bgruening`                    | 13 (2019-04-03)   | [text_processing-13:0a8c6b61f0f4](https://toolshed.g2.bx.psu.edu/view/bgruening/text_processing/0a8c6b61f0f4)                                                           |
 
+## Setting up your abricate report screening file(s)
+
+Abricate report screening files have a simple tabular format, and can be created with Excel, another spreadsheet application,
+or a plaintext editor. They consist of two columns, with headings `gene_name` and `regex`. All fields must be tab-delimited.
+
+```
+gene_name    regex
+KPC          ^KPC-\d+$
+OXA          ^OXA-\d+$
+NDM          ^NDM-\d+$
+```
+
+## Preparing the 'abricate_report_screening_files' Tool Data Table in Galaxy
+
+This workflow requires that the abricate report screening files described above are made available via a 
+[Galaxy Tool Data Table](https://galaxyproject.org/admin/tools/data-tables/) called `abricate_report_screening_files`.
+We recommend that you use the [`data_manager_manual`](https://github.com/galaxyproject/tools-iuc/tree/master/data_managers/data_manager_manual) 
+tool to manage that data table.
 
 # Usage
 
